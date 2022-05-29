@@ -4,34 +4,26 @@ import { useRef, useState, useEffect } from 'react';
 import { Tabs, Select, Button } from 'antd';
 const { TabPane } = Tabs;
 const { Option } = Select;
+import { emitter } from '../utils/mitt';
 
 export default function Index() {
   const instance = useRef();
+  const iframeRef = useRef();
   const [value, setValue] = useState(`console.log('hello world!');`);
+
   const handleChange = value => {
     console.log(`selected ${value}`);
   };
 
-  const [execText, setExecText] = useState('');
   const onClick = () => {
-    setExecText(null);
+    sendMessage();
   };
 
-  useEffect(() => {
-    if (execText === null) {
-      run();
-    }
-    return () => {};
-  }, [execText]);
-
-  const run = () => {
-    console.warn(value);
-    try {
-      new Function(`${applyLog(setExecText)};${value}`)();
-    } catch (error) {
-      setExecText(error.message);
-    }
+  const sendMessage = () => {
+    if (!iframeRef.current) return;
+    iframeRef.current.contentWindow.postMessage({ message: value });
   };
+
   const tabBarExtraContent = {
     left: (
       <Select
@@ -76,7 +68,11 @@ export default function Index() {
         </TabPane>
       </Tabs>
 
-      <iframe title='My Daily Marathon Tracker' src='/content'></iframe>
+      <iframe
+        ref={iframeRef}
+        title='My Daily Marathon Tracker'
+        src='/content'
+      />
 
       <style jsx>{`
         .container {

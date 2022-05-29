@@ -3,7 +3,7 @@ export default function RunnerBox({ text }) {
     <div className='runner-box'>
       <h3>运行结果</h3>
       <div id='console' className='output'>
-        <code>{text}</code>
+        <code></code>
       </div>
       <style jsx>{`
         .runner-box {

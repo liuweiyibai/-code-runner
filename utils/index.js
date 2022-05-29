@@ -1,3 +1,5 @@
+let isRegisterConsole = false;
+
 const formatArray = function (t) {
   for (var e = '', r = 0, n = t.length; r < n; r++)
     'string' == typeof t[r]
@@ -8,6 +10,7 @@ const formatArray = function (t) {
       r < t.length - 1 && (e += ', ');
   return e;
 };
+
 const formatObject = function (t) {
   var e = t.constructor ? t.constructor.name : t;
   if ('String' === e) return `String { "${t.valueOf()}" }`;
@@ -63,24 +66,23 @@ const writeOutput = function (t) {
   var e = document.querySelector('#console code'),
     r = e.textContent,
     n = '> ' + t + '\n';
+  console.warn(r);
   e.textContent = r + n;
 };
 
-export const applyLog = function (setText) {
+export const applyLog = function () {
   const log = console.log;
   const error = console.error;
+  if (isRegisterConsole) return;
+  isRegisterConsole = true;
   console.log = function () {
     for (var t = [], n = 0, o = arguments.length; n < o; n++) {
       var i = formatOutput(arguments[n]);
       t.push(i);
     }
     var s = t.join(' ');
-    // writeOutput(s);
-    setText(prevText => {
-      const text = `> ${s} \n`;
-      console.warn(text);
-      return (prevText || '') + text;
-    });
+    writeOutput(s);
+    console.warn(s);
     log.apply(console, arguments);
   };
 
