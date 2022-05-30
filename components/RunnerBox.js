@@ -29,6 +29,7 @@ export default function RunnerBox({ text }) {
           white-space: pre;
           vertical-align: middle;
           word-break: break-word;
+          font-size: 16px;
         }
       `}</style>
     </div>
