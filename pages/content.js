@@ -22,5 +22,5 @@ export default function Content() {
       execCode(e.data.message);
     });
   }, []);
-  return <RunnerBox text={'execText'} />;
+  return <RunnerBox />;
 }

@@ -5,8 +5,8 @@ const formatArray = function (t) {
     'string' == typeof t[r]
       ? (e += '"' + t[r] + '"')
       : Array.isArray(t[r])
-      ? ((e += 'Array ['), (e += this.formatArray(t[r])), (e += ']'))
-      : (e += this.formatOutput(t[r])),
+      ? ((e += 'Array ['), (e += formatArray(t[r])), (e += ']'))
+      : (e += formatOutput(t[r])),
       r < t.length - 1 && (e += ', ');
   return e;
 };
@@ -23,21 +23,20 @@ const formatObject = function (t) {
       /^(Int8Array|Int16Array|Int32Array|Uint8Array|Uint16Array|Uint32Array|Uint8ClampedArray|Float32Array|Float64Array|BigInt64Array|BigUint64Array)$/
     )
   )
-    return t.length > 0 ? e + ' [' + this.formatArray(t) + ']' : e + ' []';
+    return t.length > 0 ? e + ' [' + formatArray(t) + ']' : e + ' []';
   if ('Symbol' === e && void 0 !== t) return t.toString();
   if ('Object' === e) {
     var r = '',
       n = !0;
     for (var o in t)
       t.hasOwnProperty(o) &&
-        (n ? (n = !1) : (r += ', '),
-        (r = r + o + ': ' + this.formatOutput(t[o])));
+        (n ? (n = !1) : (r += ', '), (r = r + o + ': ' + formatOutput(t[o])));
     return e + ' { ' + r + ' }';
   }
   if (!t.constructor && !t.prototype) {
     (r = ''), (n = !0);
     for (var o in t)
-      n ? (n = !1) : (r += ', '), (r = r + o + ': ' + this.formatOutput(t[o]));
+      n ? (n = !1) : (r += ', '), (r = r + o + ': ' + formatOutput(t[o]));
     return 'Object { ' + r + ' }';
   }
   return t;

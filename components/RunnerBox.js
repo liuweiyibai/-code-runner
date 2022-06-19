@@ -1,4 +1,4 @@
-export default function RunnerBox({ text }) {
+export default function RunnerBox() {
   return (
     <div className='runner-box'>
       <h3>运行结果</h3>
@@ -26,10 +26,10 @@ export default function RunnerBox({ text }) {
           overflow-y: auto;
         }
         code {
-          white-space: pre;
           vertical-align: middle;
           word-break: break-word;
           font-size: 16px;
+          white-space: pre;
         }
       `}</style>
     </div>

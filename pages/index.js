@@ -1,16 +1,15 @@
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { useRef, useState } from 'react';
-import { Tabs, Select, Button } from 'antd';
-import { getFileList } from '../utils/files';
+import { Tabs, Button, TreeSelect } from 'antd';
+import { getFileList } from '../utils/files.mjs';
 const { TabPane } = Tabs;
-const { Option } = Select;
 
 export default function Index({ fileList }) {
   const defaultValue = fileList[0].value;
   const instance = useRef();
   const iframeRef = useRef();
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState();
   let resetValue = defaultValue;
 
   const handleChange = value => {
@@ -32,19 +31,15 @@ export default function Index({ fileList }) {
 
   const tabBarExtraContent = {
     left: (
-      <Select
-        defaultValue={defaultValue}
-        style={{ width: 200, marginLeft: 16, marginRight: 16 }}
+      <TreeSelect
+        style={{ width: 380, marginLeft: 16, marginRight: 16 }}
+        value={value}
+        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+        treeData={fileList}
+        placeholder='请选择~~'
+        treeDefaultExpandAll
         onChange={handleChange}
-      >
-        {fileList.map((t, index) => {
-          return (
-            <Option value={t.value} key={index}>
-              {t.title}
-            </Option>
-          );
-        })}
-      </Select>
+      />
     ),
     right: (
       <>
