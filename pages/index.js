@@ -19,10 +19,6 @@ export default function Index({ fileList }) {
     sendMessage();
   };
 
-  const onReset = () => {
-    setValue(resetValue);
-  };
-
   const sendMessage = () => {
     if (!iframeRef.current) return;
     iframeRef.current.contentWindow.postMessage({ message: value });
@@ -42,9 +38,9 @@ export default function Index({ fileList }) {
     ),
     right: (
       <>
-        <Button type='primary' className='mr-16' onClick={onReset}>
+        {/* <Button type='primary' className='mr-16' onClick={onReset}>
           重置
-        </Button>
+        </Button> */}
         <Button className='mr-16' onClick={onClick}>
           运行
         </Button>
