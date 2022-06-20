@@ -4,15 +4,14 @@ import { useRef, useState } from 'react';
 import { Tabs, Button, TreeSelect } from 'antd';
 import { getFileList } from '../utils/files.mjs';
 const { TabPane } = Tabs;
-
+let resetValue = undefined;
 export default function Index({ fileList }) {
-  const defaultValue = fileList[0].value;
   const instance = useRef();
   const iframeRef = useRef();
   const [value, setValue] = useState();
-  let resetValue = defaultValue;
 
   const handleChange = value => {
+    resetValue = value;
     setValue(value);
   };
 
