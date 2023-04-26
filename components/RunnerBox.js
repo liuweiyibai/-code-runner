@@ -1,10 +1,8 @@
 export default function RunnerBox() {
   return (
-    <div className='runner-box'>
+    <div className="runner-box" id="log-container">
       <h3>运行结果</h3>
-      <div id='console' className='output'>
-        <code></code>
-      </div>
+      <div id="log" className="output"></div>
       <style jsx>{`
         .runner-box {
           box-sizing: border-box;
