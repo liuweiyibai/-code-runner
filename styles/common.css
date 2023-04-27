@@ -1,10 +1,28 @@
 body {
-  font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
-    'Arial', sans-serif;
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica",
+    "Arial", sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .mr-16 {
   margin-right: 16px;
+}
+
+body .output .log-error,
+body .output .log-warn {
+  font-weight: 700;
+}
+body .output .log-error {
+  color: red;
+}
+body .output .log-log {
+  color: silver;
+}
+
+#log-container {
+  font-family: 'Cascadia Mono-SemiLight",Menlo,Monaco,Consolas,monospace';
+  line-height: 1.5rem;
+  overflow: auto;
+  white-space: pre-wrap;
 }

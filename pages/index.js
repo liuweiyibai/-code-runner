@@ -3,25 +3,20 @@ import { javascript } from "@codemirror/lang-javascript";
 import { useRef, useState } from "react";
 import { Tabs, Button, TreeSelect } from "antd";
 import { getFileList } from "../utils/files.mjs";
+import Runner from "../components/Runner.js";
+
 const { TabPane } = Tabs;
 let resetValue = undefined;
 export default function Index({ fileList }) {
   const instance = useRef();
-  const iframeRef = useRef();
   const [value, setValue] = useState();
 
   const handleChange = (value) => {
     resetValue = value;
-    setValue(value);
   };
 
   const onClick = () => {
-    sendMessage();
-  };
-
-  const sendMessage = () => {
-    if (!iframeRef.current) return;
-    iframeRef.current.contentWindow.postMessage({ message: value });
+    setValue(resetValue);
   };
 
   const tabBarExtraContent = {
@@ -38,9 +33,6 @@ export default function Index({ fileList }) {
     ),
     right: (
       <>
-        {/* <Button type='primary' className='mr-16' onClick={onReset}>
-          重置
-        </Button> */}
         <Button className="mr-16" onClick={onClick}>
           运行
         </Button>
@@ -66,13 +58,7 @@ export default function Index({ fileList }) {
           </div>
         </TabPane>
       </Tabs>
-
-      <iframe
-        ref={iframeRef}
-        title="My Daily Marathon Tracker"
-        src="/content"
-      />
-
+      <Runner code={value} />
       <style jsx>{`
         .container {
           display: flex;

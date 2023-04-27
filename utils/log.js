@@ -1,26 +1,11 @@
 let allLogs = [];
-
-export const runWithCustomLogs = (
-  code,
-  i = (err) => {
-    console.log(err);
-  }
-) => {
-  const noLogs = document.getElementById("empty-message-container");
-  const logContainer = document.getElementById("log-container");
-  if (noLogs) {
-    noLogs.style.display = "none";
-    logContainer.style.display = "block";
-  }
-
-  rewireLoggingToElement(
-    () => document.getElementById("log"),
-    () => document.getElementById("log-container"),
-    code,
-    true,
-    i
-  );
+// Inline constants which are switched out at the end of processing
+const replacers = {
+  "<span class='literal'>null</span>": "1231232131231231423434534534",
+  "<span class='literal'>undefined</span>": "4534534534563567567567",
+  "<span class='comma'>, </span>": "785y8345873485763874568734y535438",
 };
+const rawConsole = console;
 
 function rewireLoggingToElement(
   eleLocator,
@@ -29,8 +14,6 @@ function rewireLoggingToElement(
   autoScroll,
   i
 ) {
-  const rawConsole = console;
-
   const replace = {};
   bindLoggingFunc(replace, rawConsole, "log", "LOG");
   bindLoggingFunc(replace, rawConsole, "debug", "DBG");
@@ -38,9 +21,10 @@ function rewireLoggingToElement(
   bindLoggingFunc(replace, rawConsole, "error", "ERR");
   replace["clear"] = clearLogs;
   const console = Object.assign({}, rawConsole, replace);
+  window.console = console;
   try {
     const safeJS = sanitizeJS(code);
-    eval(safeJS);
+    new Function(safeJS)();
   } catch (error) {
     console.error(i("play_run_js_fail"));
     console.error(error);
@@ -67,15 +51,7 @@ function rewireLoggingToElement(
     };
   }
 
-  // Inline constants which are switched out at the end of processing
-  const replacers = {
-    "<span class='literal'>null</span>": "1231232131231231423434534534",
-    "<span class='literal'>undefined</span>": "4534534534563567567567",
-    "<span class='comma'>, </span>": "785y8345873485763874568734y535438",
-  };
-
   function objectToText(arg) {
-    console.log(replacers);
     const isObj = typeof arg === "object";
     let textRep = "";
     if (arg && arg.stack && arg.message) {
@@ -132,7 +108,7 @@ function rewireLoggingToElement(
     }
     return textRep;
   }
-  alert(objectToText);
+
   function produceOutput(args) {
     let result = args.reduce((output, arg, index) => {
       const textRep = objectToText?.(arg);
@@ -162,6 +138,28 @@ function htmlEscape(str) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
+
+export const runWithCustomLogs = (
+  code,
+  i = (err) => {
+    console.log(err);
+  }
+) => {
+  const noLogs = document.getElementById("empty-message-container");
+  const logContainer = document.getElementById("log-container");
+  if (noLogs) {
+    noLogs.style.display = "none";
+    logContainer.style.display = "block";
+  }
+
+  rewireLoggingToElement(
+    () => document.getElementById("log"),
+    () => document.getElementById("log-container"),
+    code,
+    true,
+    i
+  );
+};
 
 export const clearLogs = () => {
   allLogs = [];
