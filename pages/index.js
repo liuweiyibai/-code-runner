@@ -4,18 +4,28 @@ import { useRef, useState } from "react";
 import { Tabs, Button, TreeSelect } from "antd";
 import { getFileList } from "../utils/files.mjs";
 import Runner from "../components/Runner.js";
+import { useRouter } from "next/router.js";
 
 const { TabPane } = Tabs;
 let resetValue = undefined;
 export default function Index({ fileList }) {
   const instance = useRef();
   const [value, setValue] = useState();
+  const router = useRouter();
 
   const handleChange = (value) => {
+    setValue(value);
     resetValue = value;
   };
 
-  const onClick = () => {
+  const onRun = () => {
+    router.replace({
+      pathname: "/",
+      query: { keyword: value },
+    });
+  };
+
+  const onReset = () => {
     setValue(resetValue);
   };
 
@@ -33,8 +43,11 @@ export default function Index({ fileList }) {
     ),
     right: (
       <>
-        <Button className="mr-16" onClick={onClick}>
+        <Button className="mr-16" onClick={onRun}>
           运行
+        </Button>
+        <Button className="mr-16" onClick={onReset}>
+          重置
         </Button>
       </>
     ),
@@ -51,14 +64,13 @@ export default function Index({ fileList }) {
               extensions={[javascript({ jsx: true })]}
               onChange={(value) => {
                 setValue(value);
-                resetValue = value;
               }}
               ref={instance}
             />
           </div>
         </TabPane>
       </Tabs>
-      <Runner code={value} />
+      <Runner />
       <style jsx>{`
         .container {
           display: flex;
