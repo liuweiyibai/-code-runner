@@ -1,27 +1,22 @@
-import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { useRef, useState } from 'react';
-import { Tabs, Button, TreeSelect } from 'antd';
-import { getFileList } from '../utils/files.mjs';
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { useRef, useState } from "react";
+import { Tabs, Button, TreeSelect } from "antd";
+import { getFileList } from "../utils/files.mjs";
+import Runner from "../components/Runner.js";
+
 const { TabPane } = Tabs;
 let resetValue = undefined;
 export default function Index({ fileList }) {
   const instance = useRef();
-  const iframeRef = useRef();
   const [value, setValue] = useState();
 
-  const handleChange = value => {
+  const handleChange = (value) => {
     resetValue = value;
-    setValue(value);
   };
 
   const onClick = () => {
-    sendMessage();
-  };
-
-  const sendMessage = () => {
-    if (!iframeRef.current) return;
-    iframeRef.current.contentWindow.postMessage({ message: value });
+    setValue(resetValue);
   };
 
   const tabBarExtraContent = {
@@ -29,19 +24,16 @@ export default function Index({ fileList }) {
       <TreeSelect
         style={{ width: 380, marginLeft: 16, marginRight: 16 }}
         value={value}
-        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+        dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
         treeData={fileList}
-        placeholder='请选择~~'
+        placeholder="请选择~~"
         treeDefaultExpandAll
         onChange={handleChange}
       />
     ),
     right: (
       <>
-        {/* <Button type='primary' className='mr-16' onClick={onReset}>
-          重置
-        </Button> */}
-        <Button className='mr-16' onClick={onClick}>
+        <Button className="mr-16" onClick={onClick}>
           运行
         </Button>
       </>
@@ -49,15 +41,15 @@ export default function Index({ fileList }) {
   };
 
   return (
-    <main className='container'>
-      <Tabs type='card' tabBarExtraContent={tabBarExtraContent}>
-        <TabPane tab='JavaScript' key='1'>
-          <div className='overflow-y'>
+    <main className="container">
+      <Tabs type="card" tabBarExtraContent={tabBarExtraContent}>
+        <TabPane tab="JavaScript" key="1">
+          <div className="overflow-y">
             <CodeMirror
               value={value}
-              width='50vw'
+              width="50vw"
               extensions={[javascript({ jsx: true })]}
-              onChange={value => {
+              onChange={(value) => {
                 setValue(value);
                 resetValue = value;
               }}
@@ -66,18 +58,13 @@ export default function Index({ fileList }) {
           </div>
         </TabPane>
       </Tabs>
-
-      <iframe
-        ref={iframeRef}
-        title='My Daily Marathon Tracker'
-        src='/content'
-      />
-
+      <Runner code={value} />
       <style jsx>{`
         .container {
           display: flex;
           height: 100vh;
           width: 100vw;
+          max-width: 100vw;
         }
         iframe {
           border: 0 none;
