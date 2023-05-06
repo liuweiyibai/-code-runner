@@ -7,9 +7,11 @@ export default function RunnerBox() {
         .runner-box {
           box-sizing: border-box;
           padding: 16px;
-          width: 50vw;
+          padding-left: 0;
+          flex: 1;
+          margin-left: 20px;
           height: 100vh;
-          border-left: 1px dashed #efefef;
+
           display: flex;
           flex-direction: column;
         }

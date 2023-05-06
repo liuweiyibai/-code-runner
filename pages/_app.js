@@ -1,5 +1,5 @@
-import '../styles/common.css';
-import 'antd/dist/antd.css';
+import "../styles/common.css";
+// import 'antd/dist/antd.css';
 export default function App({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }
