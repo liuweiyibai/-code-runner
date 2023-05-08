@@ -1,4 +1,4 @@
-//map函数
+// map函数
 var map = function (mappingFunction, list) {
   var result = [];
   forEach(list, function (item) {

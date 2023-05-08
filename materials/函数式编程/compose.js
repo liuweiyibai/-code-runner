@@ -36,4 +36,4 @@ let a = fn1(fn2(fn3(fn4(x)))); // 10 + 4 + 3 + 2 + 1 = 20
 let composeFn = compose(fn1, fn2, fn3, fn4);
 let b = composeFn(x); // 理论上也应该得到20
 
-console.log(a,b)
+console.log(a, b);

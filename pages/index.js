@@ -21,6 +21,7 @@ export default function Index({ fileList, allList }) {
     resetValue = item.text;
     selectedValue = value.join(",");
     setValue(item.text);
+    _setDefaultValue(value);
   };
 
   const onRun = () => {
@@ -91,6 +92,9 @@ export default function Index({ fileList, allList }) {
                 font-size: 16px;
                 .cm-theme-light {
                   height: 100%;
+                  .cm-content {
+                    font-family: "Consolas";
+                  }
                 }
               }
             `}

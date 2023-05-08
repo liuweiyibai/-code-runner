@@ -1,4 +1,4 @@
-//reduce函数
+// reduce函数
 function reduce(actionFunction, list, initial) {
   var accumulate;
   var temp;
