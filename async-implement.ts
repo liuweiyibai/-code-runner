@@ -35,6 +35,7 @@ function asyncRunner(g: () => Generator) {
 }
 const getData = () =>
   new Promise((resolve) => setTimeout(() => resolve("data"), 1000));
+
 function* testG(): Generator<Promise<any>> {
   // await 被编译成了 yield
   const data = yield getData();
